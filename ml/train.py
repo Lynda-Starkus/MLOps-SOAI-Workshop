@@ -91,3 +91,22 @@ class Trainer:
                                        dim=-1) == y).detach().item()
         total_acc = total_correct / (len(dataloader) * dataloader.batch_size)
         return total_loss, total_acc
+
+
+        """_summary_
+        This is a Python class named Trainer which implements a training loop for a PyTorch neural network model. 
+        The class is initialized with a model, an optimizer (defaults to torch.optim.Adam), 
+        a loss criterion (defaults to torch.nn.CrossEntropyLoss) and a device for computations (defaults to "cpu"). 
+        The model is moved to the specified device during initialization.
+
+        The class provides the train method, which trains the model for a specified number of epochs, 
+        with a given training data loader, and optionally with a validation data loader. 
+        It logs the training loss and accuracy as well as the validation loss and accuracy after each epoch.
+
+        The train_epoch method trains the model for one epoch, updating the model parameters based 
+        on the gradients derived from the loss computation using the optimizer. The eval_epoch method evaluates 
+        the model's performance on a given data loader by computing the loss and accuracy.
+
+        The get_model method returns the trained model.
+        
+        """

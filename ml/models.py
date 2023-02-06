@@ -27,3 +27,24 @@ class LinearModel(torch.nn.Module):
                 x, negative_slope=self.negative_slope)
         x = self.layers[-1](x)
         return torch.nn.functional.softmax(x, dim=-1)
+
+
+        """_summary_
+        
+        This is a PyTorch implementation of a simple linear neural network model. It's a subclass of torch.nn.Module, 
+        which is the base class for all neural network modules in PyTorch. The class definition includes an init method, 
+        which is called when the model is instantiated, and a forward method, which defines the forward pass of the network.
+
+        The init method takes a dictionary hyperparameters as an argument, which is used to configure the model. 
+        The method uses the input_dim, output_dim, hidden_dims and negative_slope hyperparameters to configure the architecture of the model.
+
+        The model consists of a number of linear layers, as determined by the number of hidden dimensions, 
+        and each layer is followed by a leaky ReLU activation function. The final layer is followed by a 
+        softmax activation to produce a probability distribution over the possible output classes.
+
+        The forward method implements the forward pass of the network, which takes an input tensor x and passes it through each layer of 
+        the network, applying the activation functions after each layer. The final output is the predicted probability 
+        distribution over the possible output classes.
+
+        """
+        

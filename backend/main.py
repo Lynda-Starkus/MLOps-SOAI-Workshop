@@ -1,10 +1,10 @@
-import numpy as np
-from fastapi import FastAPI
-from fastapi import BackgroundTasks
-from urllib.parse import urlparse
+import numpy as np #to deal with arrays and matrices
+from fastapi import FastAPI #High performance web framework to build python APIs
+from fastapi import BackgroundTasks #Create & Manage background tasks concurrently with main process 
+from urllib.parse import urlparse #Function to parse URLs
 
-import mlflow
-from mlflow.tracking import MlflowClient
+import mlflow #Allows for and e2e lifecycle management of models
+from mlflow.tracking import MlflowClient #To use MLflow's REST API to retrive, cerate, deleter experiments and runs, logs and artifacts
 from ml.train import Trainer
 from ml.models import LinearModel
 from ml.data import load_mnist_data
@@ -12,17 +12,21 @@ from ml.utils import set_device
 from backend.models import DeleteModel, TrainModel, PredictModel
 
 
-#mlflow.set_tracking_uri('sqlite:///backend.db')
 mlflow.set_tracking_uri("http://localhost:5000")
 app = FastAPI()
+
+#Creating a client
 mlflowclient = MlflowClient(
     mlflow.get_tracking_uri(), mlflow.get_registry_uri())
 
 
+
+
+
+"""The task of training the model is intended to run in the background. To handle the heavy computation, it is recommended to use a powerful task runner such as Celery.
+However, for the sake of simplicity, it has been implemented as a background task in FastAPI."""
+
 def train_model_task(model_name: str, hyperparams: dict, epochs: int):
-    """Tasks that trains the model. This is supposed to be running in the background
-    Since it's a heavy computation it's better to use a stronger task runner like Celery
-    For the simplicity I kept it as a fastapi background task"""
 
     # Setup env
     device = set_device()
