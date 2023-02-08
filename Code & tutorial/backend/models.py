@@ -19,3 +19,4 @@ class PredictModel(BaseModel):
 class DeleteModel(BaseModel):
     model_name: str
     model_version: Optional[Union[list[int], int]]  # list | int in python 10
+

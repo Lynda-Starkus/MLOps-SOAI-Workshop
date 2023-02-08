@@ -4,7 +4,7 @@ from fastapi import BackgroundTasks #Create & Manage background tasks concurrent
 from urllib.parse import urlparse #Function to parse URLs
 
 import mlflow #Allows for and e2e lifecycle management of models
-from mlflow.tracking import MlflowClient #To use MLflow's REST API to retrive, cerate, deleter experiments and runs, logs and artifacts
+from mlflow.tracking import MlflowClient #To use MLflow's REST API to retrive, cerate, deleter experiments and runs, logs and artifacts 
 from ml.train import Trainer
 from ml.models import LinearModel
 from ml.data import load_mnist_data
@@ -13,6 +13,10 @@ from backend.models import DeleteModel, TrainModel, PredictModel
 
 
 mlflow.set_tracking_uri("http://localhost:5000")
+
+#get_registry_uri("sqlite:///test.db")
+
+
 app = FastAPI()
 
 #Creating a client
@@ -32,6 +36,7 @@ def train_model_task(model_name: str, hyperparams: dict, epochs: int):
     device = set_device()
     # Set MLflow tracking
     mlflow.set_experiment("MNIST")
+    
     with mlflow.start_run() as run:
         # Log hyperparameters
         mlflow.log_params(hyperparams)
@@ -68,6 +73,7 @@ def train_model_task(model_name: str, hyperparams: dict, epochs: int):
             f"name='{model_name}'")[-1]  # Take last model version
         mlflowclient.transition_model_version_stage(
             name=mv.name, version=mv.version, stage="production")
+
 
 
 @app.get("/")
